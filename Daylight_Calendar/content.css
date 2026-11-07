@@ -1,0 +1,251 @@
+/* Daylight Calendar — Top-Right Floating Timeline Widget */
+#daylight-topright-widget {
+  position: fixed !important;
+  top: 24px !important;
+  right: 24px !important;
+  width: 360px !important;
+  max-width: calc(100vw - 32px) !important;
+  z-index: 2147483647 !important;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif !important;
+  font-size: 13px !important;
+  line-height: 1.5 !important;
+  color: #192b23 !important;
+  background: rgba(255, 255, 255, 0.98) !important;
+  backdrop-filter: blur(16px) !important;
+  -webkit-backdrop-filter: blur(16px) !important;
+  border: 2px solid #f59e0b !important;
+  border-radius: 18px !important;
+  padding: 18px 20px !important;
+  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.2), 0 0 0 4px rgba(245, 158, 11, 0.15) !important;
+  box-sizing: border-box !important;
+  animation: daylightSlideInRight 0.4s cubic-bezier(0.16, 1, 0.3, 1) !important;
+  transition: all 0.3s ease !important;
+}
+
+@keyframes daylightSlideInRight {
+  from {
+    transform: translateX(120%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+#daylight-topright-widget * {
+  box-sizing: border-box !important;
+  margin: 0;
+  padding: 0;
+}
+
+/* Header */
+.daylight-tw-header {
+  display: flex !important;
+  justify-content: space-between !important;
+  align-items: center !important;
+  margin-bottom: 12px !important;
+}
+
+.daylight-tw-badge {
+  background: #fef3c7 !important;
+  color: #92400e !important;
+  border: 1px solid #fde68a !important;
+  border-radius: 20px !important;
+  padding: 4px 10px !important;
+  font-size: 11px !important;
+  font-weight: 800 !important;
+  letter-spacing: 0.6px !important;
+  text-transform: uppercase !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 5px !important;
+}
+
+.daylight-tw-header-actions {
+  display: flex !important;
+  align-items: center !important;
+  gap: 6px !important;
+}
+
+.daylight-tw-btn-icon {
+  background: #f3f4f6 !important;
+  border: none !important;
+  width: 28px !important;
+  height: 28px !important;
+  border-radius: 50% !important;
+  display: grid !important;
+  place-items: center !important;
+  color: #6b7280 !important;
+  font-size: 14px !important;
+  cursor: pointer !important;
+  transition: all 0.15s ease !important;
+}
+
+.daylight-tw-btn-icon:hover {
+  background: #e5e7eb !important;
+  color: #111827 !important;
+}
+
+/* Event Info */
+.daylight-tw-title {
+  font-size: 16px !important;
+  font-weight: 800 !important;
+  color: #192b23 !important;
+  margin-bottom: 4px !important;
+  line-height: 1.3 !important;
+}
+
+.daylight-tw-date {
+  font-size: 12px !important;
+  font-weight: 600 !important;
+  color: #b45309 !important;
+  margin-bottom: 12px !important;
+}
+
+/* Visual Step Timeline */
+.daylight-tw-timeline {
+  margin: 14px 0 16px !important;
+  background: #f9fafb !important;
+  border: 1px solid #e5e7eb !important;
+  border-radius: 12px !important;
+  padding: 12px 10px !important;
+}
+
+.daylight-tw-timeline-title {
+  font-size: 10px !important;
+  font-weight: 800 !important;
+  color: #6b7280 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.8px !important;
+  margin-bottom: 10px !important;
+  text-align: center !important;
+}
+
+.daylight-tw-timeline-track {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  position: relative !important;
+}
+
+.daylight-tw-timeline-track::before {
+  content: "" !important;
+  position: absolute !important;
+  top: 10px !important;
+  left: 20px !important;
+  right: 20px !important;
+  height: 3px !important;
+  background: #e5e7eb !important;
+  z-index: 1 !important;
+}
+
+.daylight-tw-step {
+  position: relative !important;
+  z-index: 2 !important;
+  text-align: center !important;
+  flex: 1 !important;
+}
+
+.daylight-tw-dot {
+  width: 22px !important;
+  height: 22px !important;
+  border-radius: 50% !important;
+  background: #ffffff !important;
+  border: 3px solid #d1d5db !important;
+  margin: 0 auto 5px !important;
+  display: grid !important;
+  place-items: center !important;
+  font-size: 9px !important;
+  font-weight: 800 !important;
+  color: #9ca3af !important;
+}
+
+.daylight-tw-step.active .daylight-tw-dot {
+  border-color: #f59e0b !important;
+  background: #f59e0b !important;
+  color: #ffffff !important;
+  box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.25) !important;
+}
+
+.daylight-tw-step.completed .daylight-tw-dot {
+  border-color: #10b981 !important;
+  background: #10b981 !important;
+  color: #ffffff !important;
+}
+
+.daylight-tw-step-label {
+  font-size: 9px !important;
+  font-weight: 700 !important;
+  color: #6b7280 !important;
+  display: block !important;
+}
+
+.daylight-tw-step.active .daylight-tw-step-label {
+  color: #92400e !important;
+  font-weight: 800 !important;
+}
+
+/* Footer Action Buttons */
+.daylight-tw-actions {
+  display: flex !important;
+  gap: 8px !important;
+  margin-top: 14px !important;
+}
+
+.daylight-tw-btn-primary {
+  flex: 1 !important;
+  background: #216a50 !important;
+  color: #ffffff !important;
+  border: 1px solid #164d3a !important;
+  border-radius: 8px !important;
+  padding: 8px 12px !important;
+  font-size: 12px !important;
+  font-weight: 700 !important;
+  cursor: pointer !important;
+  text-align: center !important;
+  transition: all 0.15s ease !important;
+}
+
+.daylight-tw-btn-primary:hover {
+  background: #164d3a !important;
+  transform: translateY(-1px) !important;
+}
+
+.daylight-tw-btn-secondary {
+  background: #f3f4f6 !important;
+  color: #374151 !important;
+  border: 1px solid #d1d5db !important;
+  border-radius: 8px !important;
+  padding: 8px 12px !important;
+  font-size: 12px !important;
+  font-weight: 600 !important;
+  cursor: pointer !important;
+  transition: all 0.15s ease !important;
+}
+
+.daylight-tw-btn-secondary:hover {
+  background: #e5e7eb !important;
+}
+
+/* Minimized Pill State */
+#daylight-topright-widget.minimized {
+  width: auto !important;
+  padding: 8px 14px !important;
+  cursor: pointer !important;
+  border-radius: 30px !important;
+  background: #fffbeb !important;
+}
+
+#daylight-topright-widget.minimized .daylight-tw-timeline,
+#daylight-topright-widget.minimized .daylight-tw-actions,
+#daylight-topright-widget.minimized .daylight-tw-date {
+  display: none !important;
+}
+
+#daylight-topright-widget.minimized .daylight-tw-title {
+  font-size: 12px !important;
+  margin: 0 !important;
+  display: inline-block !important;
+}
+

@@ -1,0 +1,2376 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Daylight — Sri Lanka Special Days & Countdown</title>
+  <meta name="description"
+    content="A thoughtful Sri Lankan calendar for holidays, celebrations, live countdowns and 3-day notifications.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400..700;1,9..40,400..700&family=Manrope:wght@400;500;600;700;800&family=Noto+Sans+Sinhala:wght@400;500;600;700&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="content.css">
+  <style>
+    :root {
+      --ink: #192b23;
+      --muted: #728279;
+      --bg: #f5f7f3;
+      --surface: #ffffff;
+      --line: #e3ebe2;
+      --line-subtle: #edf2eb;
+      --green: #216a50;
+      --green-dark: #164d3a;
+      --green-light: #e8f4ed;
+      --soft: #edf5ea;
+      --sun: #f59e0b;
+      --sun-light: #fef3c7;
+      --sun-border: #fde68a;
+      --poya: #8b5cf6;
+      --poya-bg: #f5effe;
+      --poya-border: #ddd6fe;
+      --holiday: #10b981;
+      --holiday-bg: #ecfdf5;
+      --holiday-border: #a7f3d0;
+      --world: #3b82f6;
+      --world-bg: #eff6ff;
+      --world-border: #bfdbfe;
+      --personal: #f97316;
+      --personal-bg: #fff7ed;
+      --personal-border: #fed7aa;
+      --alert: #ef4444;
+      --alert-bg: #fef2f2;
+      --shadow-sm: 0 1px 3px rgba(25, 43, 35, 0.04);
+      --shadow-md: 0 4px 18px -2px rgba(25, 43, 35, 0.07);
+      --shadow-lg: 0 12px 32px -4px rgba(25, 43, 35, 0.12);
+      --radius-sm: 8px;
+      --radius-md: 14px;
+      --radius-lg: 20px;
+      --radius-xl: 26px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--ink);
+      font-family: 'DM Sans', 'Noto Sans Sinhala', sans-serif;
+      font-size: 14px;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+
+    button,
+    input,
+    select,
+    textarea {
+      font-family: inherit;
+      font-size: inherit;
+      outline-offset: 3px;
+    }
+
+    button {
+      cursor: pointer;
+      border: 1px solid var(--line);
+      background: var(--surface);
+      border-radius: var(--radius-sm);
+      padding: 9px 14px;
+      color: var(--ink);
+      font-weight: 500;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    button:hover {
+      background: #edf4eb;
+      border-color: #ccd9c8;
+      transform: translateY(-1px);
+    }
+
+    button:active {
+      transform: translateY(0);
+    }
+
+    a {
+      color: var(--green);
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    .primary {
+      background: var(--green);
+      color: #ffffff;
+      border-color: var(--green);
+      font-weight: 600;
+      box-shadow: 0 3px 10px rgba(33, 106, 80, 0.25);
+    }
+
+    .primary:hover {
+      background: var(--green-dark);
+      border-color: var(--green-dark);
+      color: #ffffff;
+      box-shadow: 0 4px 14px rgba(22, 77, 58, 0.35);
+    }
+
+    /* Shell Layout */
+    .shell {
+      display: grid;
+      grid-template-columns: 240px 1fr;
+      min-height: 100vh;
+    }
+
+    aside {
+      background: var(--surface);
+      border-right: 1px solid var(--line);
+      padding: 32px 22px;
+      display: flex;
+      flex-direction: column;
+      gap: 28px;
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      overflow-y: auto;
+    }
+
+    .logo {
+      font-family: 'Manrope', sans-serif;
+      font-weight: 800;
+      font-size: 24px;
+      letter-spacing: -0.8px;
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      color: var(--ink);
+    }
+
+    .sun {
+      color: var(--sun);
+      font-size: 32px;
+      animation: spinSlow 30s linear infinite;
+      display: inline-block;
+    }
+
+    @keyframes spinSlow {
+      from {
+        transform: rotate(0deg);
+      }
+
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    .small {
+      font-size: 12px;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+
+    .label {
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: 1.4px;
+      color: #849389;
+      text-transform: uppercase;
+    }
+
+    /* Navigation */
+    .nav {
+      display: grid;
+      gap: 6px;
+      margin-top: 12px;
+    }
+
+    .nav button {
+      text-align: left;
+      border: 0;
+      background: transparent;
+      padding: 10px 12px;
+      border-radius: 10px;
+      color: var(--ink);
+      font-weight: 500;
+      justify-content: flex-start;
+      transition: all 0.15s ease;
+    }
+
+    .nav button:hover {
+      background: var(--soft);
+      color: var(--green);
+      transform: none;
+    }
+
+    .nav button.active {
+      background: var(--soft);
+      color: var(--green);
+      font-weight: 700;
+      box-shadow: inset 3px 0 0 var(--green);
+    }
+
+    /* Legend */
+    .legend {
+      display: grid;
+      gap: 12px;
+      margin-top: 14px;
+    }
+
+    .legend-item {
+      display: flex;
+      align-items: center;
+      font-size: 12px;
+      color: var(--ink);
+      gap: 8px;
+    }
+
+    .dot {
+      display: inline-block;
+      height: 9px;
+      width: 9px;
+      border-radius: 50%;
+      background: var(--holiday);
+      flex-shrink: 0;
+    }
+
+    .dot.poya {
+      background: var(--poya);
+    }
+
+    .dot.world {
+      background: var(--world);
+    }
+
+    .dot.personal {
+      background: var(--personal);
+    }
+
+    .dot.alert3d {
+      background: var(--sun);
+      box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.2);
+    }
+
+    /* Side Inspiration Card */
+    .side-note {
+      margin-top: auto;
+      background: linear-gradient(145deg, #f4f8f0, #e9f2e5);
+      border: 1px solid #dce8d6;
+      padding: 18px 16px;
+      border-radius: var(--radius-md);
+      line-height: 1.6;
+      position: relative;
+    }
+
+    .side-note strong {
+      font-size: 13px;
+      color: var(--green-dark);
+      display: block;
+      margin-bottom: 4px;
+    }
+
+    /* Main Container */
+    .main {
+      padding: 26px 36px;
+      max-width: 1650px;
+      width: 100%;
+      margin: auto;
+    }
+
+    /* Top Bar */
+    .top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid var(--line);
+      padding-bottom: 18px;
+    }
+
+    .crumb {
+      font-size: 13px;
+      color: var(--muted);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .top-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    /* Test 3-Day Alert Button in Top Bar */
+    .btn-test-alert {
+      background: #fffbeb;
+      border-color: #fde68a;
+      color: #92400e;
+      font-weight: 700;
+      font-size: 12px;
+      padding: 8px 12px;
+      border-radius: 10px;
+      box-shadow: 0 2px 6px rgba(245, 158, 11, 0.12);
+    }
+
+    .btn-test-alert:hover {
+      background: #fef3c7;
+      border-color: #f59e0b;
+      transform: translateY(-1px);
+    }
+
+    /* Notification Bell */
+    .notif-btn {
+      position: relative;
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 8px 12px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-weight: 600;
+      color: var(--ink);
+    }
+
+    .notif-btn:hover {
+      background: var(--soft);
+      border-color: #cbd9c7;
+    }
+
+    .bell-icon {
+      font-size: 17px;
+    }
+
+    .notif-badge {
+      display: none;
+      background: var(--alert);
+      color: white;
+      border-radius: 10px;
+      padding: 1px 7px;
+      font-size: 11px;
+      font-weight: 800;
+      box-shadow: 0 2px 6px rgba(239, 68, 68, 0.4);
+      animation: pulseAlert 2s infinite;
+    }
+
+    @keyframes pulseAlert {
+
+      0%,
+      100% {
+        transform: scale(1);
+      }
+
+      50% {
+        transform: scale(1.15);
+      }
+    }
+
+    .avatar {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .initial {
+      height: 36px;
+      width: 36px;
+      background: var(--green-light);
+      color: var(--green);
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      font-weight: 700;
+      border: 1px solid #d2e4d9;
+    }
+
+    /* Heading Section */
+    .heading {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      margin: 24px 0 20px;
+    }
+
+    h1 {
+      font-family: 'Manrope', sans-serif;
+      font-weight: 800;
+      font-size: 28px;
+      letter-spacing: -1px;
+      margin: 0 0 6px;
+      color: var(--ink);
+    }
+
+    .heading p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    /* 3-Day In-App Alert Banner */
+    .alert-banner {
+      background: linear-gradient(135deg, #fffbeb 0%, #fef3c7 100%);
+      border: 1px solid var(--sun-border);
+      border-radius: var(--radius-md);
+      padding: 14px 20px;
+      margin-bottom: 22px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      box-shadow: 0 4px 14px rgba(245, 158, 11, 0.12);
+      animation: slideDown 0.35s ease-out;
+    }
+
+    @keyframes slideDown {
+      from {
+        opacity: 0;
+        transform: translateY(-8px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .alert-banner-left {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .alert-bell-pulse {
+      background: #fde68a;
+      width: 38px;
+      height: 38px;
+      border-radius: 10px;
+      display: grid;
+      place-items: center;
+      font-size: 20px;
+      flex-shrink: 0;
+    }
+
+    .alert-banner strong {
+      display: block;
+      color: #92400e;
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .alert-banner span {
+      font-size: 12px;
+      color: #b45309;
+    }
+
+    .alert-banner-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-shrink: 0;
+    }
+
+    .alert-banner-actions button {
+      padding: 6px 12px;
+      font-size: 12px;
+    }
+
+    .btn-alert-view {
+      background: #f59e0b;
+      color: white;
+      border-color: #d97706;
+      font-weight: 600;
+    }
+
+    .btn-alert-view:hover {
+      background: #d97706;
+    }
+
+    .btn-alert-close {
+      background: transparent;
+      border-color: transparent;
+      color: #92400e;
+      padding: 6px 10px;
+    }
+
+    .btn-alert-close:hover {
+      background: #fde68a;
+    }
+
+    /* Creative Hero Section */
+    .hero {
+      background: linear-gradient(135deg, #eaf3e8 0%, #e1edd9 60%, #eaf0db 100%);
+      border: 1px solid #d5e5cb;
+      border-radius: var(--radius-lg);
+      padding: 26px 32px;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      align-items: center;
+      gap: 24px;
+      overflow: hidden;
+      position: relative;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .hero-badge-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-bottom: 8px;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      background: rgba(255, 255, 255, 0.7);
+      border: 1px solid rgba(255, 255, 255, 0.9);
+      border-radius: 20px;
+      padding: 4px 10px;
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--green-dark);
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+    }
+
+    .hero-badge.imminent {
+      background: #fef3c7;
+      border-color: #fde68a;
+      color: #92400e;
+      animation: pulseAlert 2.5s infinite;
+    }
+
+    .hero h2 {
+      font-family: 'Manrope', sans-serif;
+      font-weight: 800;
+      font-size: 26px;
+      letter-spacing: -0.6px;
+      margin: 4px 0 8px;
+      color: var(--ink);
+    }
+
+    .hero p {
+      margin: 0 0 16px;
+      color: #556b5c;
+      font-size: 13px;
+      max-width: 620px;
+    }
+
+    /* Live Countdown Clock Cards */
+    .live-clock-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin: 12px 0 16px;
+    }
+
+    .clock-box {
+      background: rgba(255, 255, 255, 0.85);
+      backdrop-filter: blur(8px);
+      border: 1px solid rgba(255, 255, 255, 0.95);
+      border-radius: 12px;
+      padding: 8px 14px;
+      text-align: center;
+      min-width: 64px;
+      box-shadow: 0 4px 12px rgba(33, 106, 80, 0.08);
+      transition: transform 0.2s ease;
+    }
+
+    .clock-box:hover {
+      transform: translateY(-2px);
+    }
+
+    .clock-val {
+      font-family: 'Manrope', sans-serif;
+      font-weight: 800;
+      font-size: 26px;
+      line-height: 1.1;
+      color: var(--green-dark);
+      display: block;
+    }
+
+    .clock-lbl {
+      font-size: 9px;
+      font-weight: 800;
+      color: #728a78;
+      letter-spacing: 0.9px;
+      text-transform: uppercase;
+      display: block;
+      margin-top: 2px;
+    }
+
+    .clock-sep {
+      font-family: 'Manrope', sans-serif;
+      font-weight: 800;
+      font-size: 22px;
+      color: #7d9683;
+      padding: 0 2px;
+    }
+
+    .countdown-text-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--surface);
+      border: 1px solid #d2e3cb;
+      border-radius: 8px;
+      padding: 6px 12px;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--green-dark);
+    }
+
+    /* Spotlight Dropdown Picker */
+    .spotlight-picker {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-top: 14px;
+      flex-wrap: wrap;
+    }
+
+    .spotlight-picker label {
+      font-size: 12px;
+      font-weight: 700;
+      color: #496352;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .spotlight-select {
+      background: rgba(255, 255, 255, 0.9);
+      border: 1px solid #c9dac3;
+      border-radius: 8px;
+      padding: 6px 12px;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--ink);
+      max-width: 280px;
+      cursor: pointer;
+    }
+
+    .spotlight-select:hover,
+    .spotlight-select:focus {
+      border-color: var(--green);
+      background: white;
+    }
+
+    /* Hero Right Visual */
+    .hero-visual {
+      position: relative;
+      width: 170px;
+      height: 150px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .orb {
+      position: absolute;
+      width: 130px;
+      height: 130px;
+      background: radial-gradient(circle, #e0eccf 0%, #d2e4be 70%);
+      border-radius: 50%;
+      z-index: 0;
+    }
+
+    .spark {
+      position: absolute;
+      color: #70945d;
+      font-size: 28px;
+      left: 10px;
+      top: 10px;
+      animation: floatSparkle 3s ease-in-out infinite;
+    }
+
+    @keyframes floatSparkle {
+
+      0%,
+      100% {
+        transform: translateY(0) scale(1);
+      }
+
+      50% {
+        transform: translateY(-5px) scale(1.15);
+      }
+    }
+
+    .mini-cal {
+      z-index: 1;
+      transform: rotate(6deg);
+      background: #fffdf9;
+      border: 1px solid #c5d6b4;
+      border-radius: 14px;
+      width: 100px;
+      height: 108px;
+      text-align: center;
+      box-shadow: 0 8px 20px rgba(71, 107, 65, 0.15);
+      overflow: hidden;
+      transition: transform 0.25s ease;
+    }
+
+    .mini-cal:hover {
+      transform: rotate(0deg) scale(1.05);
+    }
+
+    .mini-cal-header {
+      background: var(--green);
+      color: white;
+      padding: 7px 4px;
+      letter-spacing: 1.5px;
+      font-size: 10px;
+      font-weight: 800;
+    }
+
+    .mini-cal strong {
+      font-family: 'Manrope', sans-serif;
+      font-weight: 800;
+      font-size: 38px;
+      display: block;
+      margin: 6px 0 0;
+      color: var(--ink);
+    }
+
+    .celebrate-btn {
+      z-index: 2;
+      margin-top: 10px;
+      padding: 5px 10px;
+      font-size: 11px;
+      background: rgba(255, 255, 255, 0.85);
+      border: 1px solid #c5d6b4;
+      border-radius: 20px;
+      font-weight: 700;
+      color: var(--green-dark);
+    }
+
+    /* Stats Section */
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 14px;
+      margin: 20px 0;
+    }
+
+    .stat {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: var(--radius-md);
+      padding: 16px 18px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      box-shadow: var(--shadow-sm);
+      transition: all 0.2s ease;
+    }
+
+    .stat:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-md);
+    }
+
+    .stat .icon {
+      background: var(--soft);
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      display: grid;
+      place-items: center;
+      font-size: 20px;
+      color: var(--green);
+      flex-shrink: 0;
+    }
+
+    .stat.stat-alert .icon {
+      background: #fef3c7;
+      color: #d97706;
+    }
+
+    .stat strong {
+      font-family: 'Manrope', sans-serif;
+      font-weight: 800;
+      font-size: 22px;
+      line-height: 1.2;
+      color: var(--ink);
+    }
+
+    .stat span {
+      display: block;
+      font-size: 11px;
+      color: var(--muted);
+      margin-top: 2px;
+    }
+
+    /* Content Area */
+    .content {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 300px;
+      gap: 24px;
+    }
+
+    /* Calendar Container */
+    .calendar {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      box-shadow: var(--shadow-sm);
+    }
+
+    /* Calendar Toolbar */
+    .toolbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px 24px;
+      gap: 12px;
+      border-bottom: 1px solid var(--line-subtle);
+    }
+
+    .toolbar h2 {
+      font-family: 'Manrope', sans-serif;
+      font-weight: 800;
+      font-size: 20px;
+      letter-spacing: -0.5px;
+      margin: 0;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .controls {
+      display: flex;
+      gap: 6px;
+      align-items: center;
+    }
+
+    .yearselect {
+      border: 1px solid var(--line);
+      border-radius: var(--radius-sm);
+      padding: 7px 10px;
+      background: var(--bg);
+      color: var(--green);
+      font-weight: 700;
+      font-size: 13px;
+    }
+
+    /* Filter Bar */
+    .filter-section {
+      padding: 14px 24px;
+      background: #fafbfa;
+      border-bottom: 1px solid var(--line-subtle);
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .filter-pills {
+      display: flex;
+      gap: 6px;
+      overflow-x: auto;
+      padding-bottom: 2px;
+    }
+
+    .pill-btn {
+      padding: 6px 12px;
+      font-size: 12px;
+      border-radius: 20px;
+      border: 1px solid var(--line);
+      background: white;
+      white-space: nowrap;
+      color: var(--ink);
+    }
+
+    .pill-btn:hover {
+      background: var(--soft);
+      color: var(--green);
+    }
+
+    .pill-btn.active {
+      background: var(--green);
+      color: white;
+      border-color: var(--green);
+      font-weight: 600;
+    }
+
+    .pill-btn.highlight-pill {
+      background: #fffbeb;
+      border-color: #fde68a;
+      color: #92400e;
+    }
+
+    .pill-btn.highlight-pill.active {
+      background: #f59e0b;
+      border-color: #d97706;
+      color: white;
+    }
+
+    .search-row {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .search-box {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      background: white;
+      border: 1px solid var(--line);
+      border-radius: var(--radius-sm);
+      padding: 0 12px;
+    }
+
+    .search-box input {
+      width: 100%;
+      border: 0;
+      padding: 9px 4px;
+      background: transparent;
+    }
+
+    .search-box input:focus {
+      outline: none;
+    }
+
+    .category-select {
+      border: 1px solid var(--line);
+      border-radius: var(--radius-sm);
+      padding: 8px 12px;
+      background: white;
+      color: var(--ink);
+      font-size: 13px;
+    }
+
+    /* Month Calendar Grid */
+    .week {
+      display: grid;
+      grid-template-columns: repeat(7, minmax(0, 1fr));
+      background: #f8faf7;
+      border-bottom: 1px solid var(--line);
+      text-align: center;
+      padding: 10px 0;
+      color: #7d8f84;
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 0.8px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(7, minmax(0, 1fr));
+    }
+
+    .day {
+      min-height: 112px;
+      border-right: 1px solid var(--line-subtle);
+      border-bottom: 1px solid var(--line-subtle);
+      padding: 8px 6px;
+      cursor: pointer;
+      position: relative;
+      transition: background 0.15s ease;
+      background: white;
+    }
+
+    .day:hover {
+      background: #f8fbf6;
+    }
+
+    .day:nth-child(7n) {
+      border-right: 0;
+    }
+
+    .day.empty {
+      background: #fcfdfa;
+      cursor: default;
+    }
+
+    /* Day Number & Badges */
+    .day-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 6px;
+    }
+
+    .num {
+      display: grid;
+      place-items: center;
+      width: 26px;
+      height: 26px;
+      font-size: 12px;
+      font-weight: 600;
+      border-radius: 50%;
+    }
+
+    .day.today {
+      background: #f4faf2;
+      box-shadow: inset 0 0 0 2px var(--green);
+    }
+
+    .day.today .num {
+      background: var(--green);
+      color: white;
+      font-weight: 800;
+    }
+
+    .day-pill-tag {
+      font-size: 9px;
+      font-weight: 700;
+      padding: 2px 5px;
+      border-radius: 4px;
+      letter-spacing: 0.3px;
+    }
+
+    .tag-today {
+      background: #e0f2e9;
+      color: var(--green-dark);
+    }
+
+    .day.in-3days {
+      background: #fffdf5;
+      box-shadow: inset 0 0 0 2px #f59e0b;
+    }
+
+    .tag-3days {
+      background: #fef3c7;
+      color: #92400e;
+      border: 1px solid #fde68a;
+    }
+
+    /* Event Badges */
+    .event {
+      font-size: 10px;
+      line-height: 1.45;
+      padding: 4px 6px;
+      border-radius: 5px;
+      background: var(--holiday-bg);
+      color: #065f46;
+      margin-top: 3px;
+      overflow-wrap: anywhere;
+      border-left: 3px solid var(--holiday);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 4px;
+      transition: transform 0.1s ease;
+    }
+
+    .event:hover {
+      transform: scale(1.02);
+    }
+
+    .event.Poya {
+      background: var(--poya-bg);
+      color: #5b21b6;
+      border-color: var(--poya);
+    }
+
+    .event.International {
+      background: var(--world-bg);
+      color: #1e40af;
+      border-color: var(--world);
+    }
+
+    .event.Personal {
+      background: var(--personal-bg);
+      color: #9a3412;
+      border-color: var(--personal);
+    }
+
+    .event-mini-countdown {
+      font-size: 8px;
+      font-weight: 800;
+      background: rgba(0, 0, 0, 0.05);
+      padding: 1px 4px;
+      border-radius: 3px;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
+    /* Rail Styles */
+    .rail {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .rail h3 {
+      font-family: 'Manrope', sans-serif;
+      font-weight: 800;
+      font-size: 16px;
+      margin: 0 0 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      color: var(--ink);
+    }
+
+    .upcoming {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: var(--radius-md);
+      padding: 20px;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .upitem {
+      display: flex;
+      gap: 12px;
+      padding: 14px 0;
+      border-bottom: 1px solid var(--line-subtle);
+      cursor: pointer;
+      transition: transform 0.15s ease;
+    }
+
+    .upitem:hover {
+      transform: translateX(3px);
+    }
+
+    .upitem:last-child {
+      border: 0;
+      padding-bottom: 0;
+    }
+
+    .datebox {
+      background: var(--soft);
+      border-radius: 10px;
+      padding: 8px 10px;
+      text-align: center;
+      align-self: flex-start;
+      min-width: 48px;
+      border: 1px solid #d9e6d6;
+    }
+
+    .datebox small {
+      font-size: 10px;
+      font-weight: 800;
+      color: var(--green);
+      display: block;
+      text-transform: uppercase;
+    }
+
+    .datebox b {
+      font-family: 'Manrope', sans-serif;
+      font-weight: 800;
+      font-size: 20px;
+      line-height: 1.1;
+      color: var(--ink);
+    }
+
+    .upitem-content {
+      flex: 1;
+    }
+
+    .upitem-content strong {
+      display: block;
+      font-size: 13px;
+      line-height: 1.4;
+      color: var(--ink);
+    }
+
+    .upitem-content p {
+      margin: 4px 0;
+      font-size: 11px;
+      color: var(--muted);
+    }
+
+    .countdown-pill {
+      display: inline-block;
+      color: var(--green-dark);
+      background: #e8f4eb;
+      border-radius: 6px;
+      padding: 3px 7px;
+      font-size: 10px;
+      font-weight: 700;
+      margin-top: 3px;
+    }
+
+    .countdown-pill.in-3d {
+      background: #fef3c7;
+      color: #92400e;
+      border: 1px solid #fde68a;
+    }
+
+    .countdown-pill.today-pill {
+      background: #e0f2fe;
+      color: #0369a1;
+      border: 1px solid #bae6fd;
+    }
+
+    /* Quick Days Calculator Widget */
+    .calc-card {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: var(--radius-md);
+      padding: 20px;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .calc-card h4 {
+      margin: 0 0 6px;
+      font-family: 'Manrope', sans-serif;
+      font-size: 14px;
+      font-weight: 800;
+      color: var(--ink);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .calc-row {
+      margin-top: 10px;
+    }
+
+    .calc-input {
+      width: 100%;
+      padding: 9px 12px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fafbf9;
+      font-size: 13px;
+    }
+
+    .calc-result {
+      background: linear-gradient(135deg, #f0f7ee, #e4f0e1);
+      border: 1px solid #cde0c9;
+      border-radius: 10px;
+      padding: 12px;
+      margin-top: 10px;
+      text-align: center;
+    }
+
+    .calc-result-num {
+      font-family: 'Manrope', sans-serif;
+      font-weight: 800;
+      font-size: 24px;
+      color: var(--green-dark);
+      display: block;
+    }
+
+    .calc-result-sub {
+      font-size: 11px;
+      color: #4b6855;
+      font-weight: 600;
+    }
+
+    .calc-btn-row {
+      display: flex;
+      gap: 6px;
+      margin-top: 10px;
+    }
+
+    .calc-btn-row button {
+      flex: 1;
+      padding: 6px 8px;
+      font-size: 11px;
+    }
+
+    /* Rail Tip */
+    .tip {
+      background: #fafbfa;
+      border: 1px dashed #cbd8c7;
+      border-radius: var(--radius-md);
+      padding: 18px;
+      color: #69786a;
+      line-height: 1.7;
+      font-size: 12px;
+    }
+
+    .tip strong {
+      display: block;
+      color: var(--green-dark);
+      margin-bottom: 4px;
+    }
+
+    /* Year at a glance View */
+    .yeargrid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+      padding: 20px;
+    }
+
+    .monthmini {
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      padding: 12px;
+      background: white;
+    }
+
+    .monthmini h4 {
+      margin: 0 0 10px;
+      font-family: 'Manrope', sans-serif;
+      font-size: 13px;
+      font-weight: 800;
+    }
+
+    .minigrid {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 2px;
+      font-size: 10px;
+      text-align: center;
+    }
+
+    .minigrid span {
+      padding: 3px 0;
+      border-radius: 4px;
+    }
+
+    .marked {
+      background: #e2efe0;
+      font-weight: bold;
+      color: var(--green-dark);
+    }
+
+    .marked.in3d {
+      background: #fde68a;
+      color: #92400e;
+    }
+
+    /* List View (Personal & Search) */
+    .list {
+      padding: 14px 20px;
+    }
+
+    .list-item-btn {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      width: 100%;
+      text-align: left;
+      margin-bottom: 10px;
+      padding: 14px 16px;
+      border-radius: 10px;
+      gap: 14px;
+    }
+
+    .list-item-btn:hover {
+      background: #f4f8f1;
+    }
+
+    .notice {
+      padding: 36px 20px;
+      text-align: center;
+      color: var(--muted);
+    }
+
+    /* Modals / Dialogs */
+    dialog {
+      border: 1px solid var(--line);
+      border-radius: var(--radius-lg);
+      width: min(500px, 92vw);
+      padding: 28px;
+      color: var(--ink);
+      box-shadow: var(--shadow-lg);
+      background: white;
+    }
+
+    dialog::backdrop {
+      background: rgba(18, 38, 29, 0.45);
+      backdrop-filter: blur(4px);
+    }
+
+    dialog h2 {
+      font-family: 'Manrope', sans-serif;
+      font-weight: 800;
+      font-size: 22px;
+      letter-spacing: -0.5px;
+      margin: 0 0 6px;
+    }
+
+    dialog label {
+      display: block;
+      font-size: 12px;
+      font-weight: 600;
+      margin: 14px 0 6px;
+      color: var(--ink);
+    }
+
+    dialog input,
+    dialog textarea,
+    dialog select {
+      width: 100%;
+      padding: 11px 13px;
+      border: 1px solid #d4ded3;
+      border-radius: 8px;
+      font-size: 13px;
+      background: #fafbf9;
+    }
+
+    dialog input:focus,
+    dialog textarea:focus,
+    dialog select:focus {
+      outline: none;
+      border-color: var(--green);
+      background: white;
+    }
+
+    dialog textarea {
+      min-height: 85px;
+      resize: vertical;
+    }
+
+    /* Checkbox Card */
+    .checkbox-box {
+      margin-top: 16px;
+      background: #f8faf6;
+      border: 1px solid #dce8da;
+      border-radius: 10px;
+      padding: 12px 14px;
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      cursor: pointer;
+    }
+
+    .checkbox-box input[type="checkbox"] {
+      width: 18px;
+      height: 18px;
+      margin-top: 2px;
+      cursor: pointer;
+      accent-color: var(--green);
+    }
+
+    .checkbox-box div {
+      font-size: 12px;
+      line-height: 1.5;
+    }
+
+    .checkbox-box strong {
+      color: var(--green-dark);
+    }
+
+    /* Reminder Preview helper box in Add Dialog */
+    .reminder-preview-box {
+      background: #fffbeb;
+      border: 1px solid #fde68a;
+      border-radius: 8px;
+      padding: 9px 12px;
+      margin-top: 10px;
+      font-size: 12px;
+      font-weight: 600;
+      color: #92400e;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 10px;
+      margin-top: 24px;
+      flex-wrap: wrap;
+    }
+
+    /* Detail Modal Styles */
+    .detail-countdown-card {
+      background: linear-gradient(135deg, #f0f7ed 0%, #e5f2e1 100%);
+      border: 1px solid #d2e4cd;
+      border-radius: 14px;
+      padding: 16px;
+      text-align: center;
+      margin: 14px 0 18px;
+    }
+
+    .detail-days-num {
+      font-family: 'Manrope', sans-serif;
+      font-weight: 800;
+      font-size: 36px;
+      line-height: 1;
+      color: var(--green-dark);
+    }
+
+    .detail-days-sub {
+      font-size: 12px;
+      font-weight: 700;
+      color: #4b6b55;
+      margin-top: 4px;
+    }
+
+    .detail-item {
+      border-top: 1px solid var(--line-subtle);
+      padding: 14px 0;
+    }
+
+    .detail-item h3 {
+      margin: 4px 0 8px;
+      font-size: 16px;
+      color: var(--ink);
+    }
+
+    /* Notification Center Modal */
+    .notif-modal {
+      width: min(520px, 94vw);
+    }
+
+    .notif-banner-box {
+      background: #fef3c7;
+      border: 1px solid #fde68a;
+      border-radius: 10px;
+      padding: 12px 14px;
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    .notif-item {
+      background: #f9fbf8;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      padding: 12px 14px;
+      margin-bottom: 8px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .notif-item.urgent {
+      background: #fffbeb;
+      border-color: #fde68a;
+    }
+
+    /* Toast */
+    .toast {
+      position: fixed;
+      bottom: 24px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--green-dark);
+      color: white;
+      padding: 12px 22px;
+      border-radius: 12px;
+      font-weight: 600;
+      font-size: 13px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+      z-index: 10000;
+      display: none;
+      animation: toastIn 0.3s ease-out;
+    }
+
+    @keyframes toastIn {
+      from {
+        opacity: 0;
+        transform: translate(-50%, 15px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translate(-50%, 0);
+      }
+    }
+
+    /* 3-Day Alert Popup Modal */
+    .popup-3day-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(15, 30, 22, 0.55);
+      backdrop-filter: blur(5px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 100000;
+      animation: fadeIn 0.25s ease-out;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+      }
+
+      to {
+        opacity: 1;
+      }
+    }
+
+    .popup-3day-card {
+      background: #ffffff;
+      border: 2px solid #f59e0b;
+      border-radius: 20px;
+      width: min(520px, 92vw);
+      padding: 26px 28px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.25), 0 0 0 6px rgba(245, 158, 11, 0.15);
+      animation: scaleBounce 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+
+    @keyframes scaleBounce {
+      from {
+        opacity: 0;
+        transform: scale(0.85);
+      }
+
+      to {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+
+    .popup-3day-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+    }
+
+    .popup-badge {
+      background: #fef3c7;
+      color: #92400e;
+      border: 1px solid #fde68a;
+      border-radius: 20px;
+      padding: 5px 12px;
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 0.8px;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      animation: pulseAlert 2s infinite;
+    }
+
+    .popup-close-btn {
+      background: #f3f4f6;
+      border: 0;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      font-size: 14px;
+      color: #6b7280;
+      cursor: pointer;
+    }
+
+    .popup-close-btn:hover {
+      background: #e5e7eb;
+      color: #111827;
+    }
+
+    .popup-content-row {
+      display: flex;
+      gap: 16px;
+      align-items: flex-start;
+    }
+
+    .popup-bell-icon {
+      background: linear-gradient(135deg, #fef3c7, #fde68a);
+      width: 54px;
+      height: 54px;
+      border-radius: 16px;
+      display: grid;
+      place-items: center;
+      font-size: 28px;
+      flex-shrink: 0;
+      box-shadow: 0 4px 14px rgba(245, 158, 11, 0.2);
+    }
+
+    .popup-content-text h3 {
+      font-family: 'Manrope', sans-serif;
+      font-weight: 800;
+      font-size: 20px;
+      margin: 0 0 4px;
+      color: #192b23;
+    }
+
+    .popup-content-text .popup-date {
+      font-size: 13px;
+      font-weight: 700;
+      color: #b45309;
+      margin: 0 0 8px;
+    }
+
+    .popup-content-text p {
+      margin: 0;
+      font-size: 13px;
+      color: #4b5563;
+      line-height: 1.6;
+    }
+
+    .popup-footer {
+      display: flex;
+      justify-content: flex-end;
+      gap: 10px;
+      margin-top: 22px;
+      padding-top: 16px;
+      border-top: 1px solid #f3f4f6;
+    }
+
+    /* Caption Box in Detail Modal */
+    .caption-box {
+      background: #f8faf6;
+      border: 1px solid #d8e5d5;
+      border-radius: 12px;
+      padding: 14px 16px;
+      margin-top: 14px;
+    }
+    .caption-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--green-dark);
+      margin-bottom: 8px;
+    }
+    .btn-copy {
+      font-size: 11px;
+      padding: 4px 10px;
+      background: white;
+      border: 1px solid #c8d8c5;
+      border-radius: 6px;
+      font-weight: 600;
+      color: var(--green);
+      cursor: pointer;
+    }
+    .btn-copy:hover {
+      background: var(--soft);
+    }
+    .caption-text {
+      font-size: 12px;
+      line-height: 1.6;
+      color: #37473f;
+      margin: 0;
+      white-space: pre-wrap;
+      font-family: 'DM Sans', 'Noto Sans Sinhala', sans-serif;
+      background: white;
+      padding: 10px 12px;
+      border-radius: 8px;
+      border: 1px solid #e3ede1;
+    }
+
+    /* Footer */
+    .foot {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      margin-top: 32px;
+      padding-top: 18px;
+      border-top: 1px solid var(--line);
+      color: var(--muted);
+      font-size: 11px;
+    }
+
+    /* Mobile Views */
+    .mobileviews {
+      display: none;
+    }
+
+    .mobilebrand {
+      display: none;
+    }
+
+    /* Canvas Confetti */
+    #confetti {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      pointer-events: none;
+      z-index: 99999;
+    }
+
+    /* Responsive */
+    @media (max-width: 1150px) {
+      .shell {
+        grid-template-columns: 200px 1fr;
+      }
+
+      aside {
+        padding: 24px 16px;
+      }
+
+      .main {
+        padding: 20px;
+      }
+
+      .content {
+        grid-template-columns: 1fr;
+      }
+
+      .stats {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .rail {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 16px;
+      }
+
+      .calc-card {
+        grid-column: span 2;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .shell {
+        display: block;
+      }
+
+      aside {
+        display: none;
+      }
+
+      .main {
+        padding: 16px 12px;
+      }
+
+      .mobilebrand {
+        display: flex;
+      }
+
+      .crumb {
+        display: none;
+      }
+
+      .heading {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+      }
+
+      .hero {
+        grid-template-columns: 1fr;
+        padding: 20px 16px;
+      }
+
+      .hero-visual {
+        display: none;
+      }
+
+      .stats {
+        grid-template-columns: 1fr 1fr;
+        gap: 8px;
+      }
+
+      .rail {
+        display: flex;
+        flex-direction: column;
+      }
+
+      .calc-card {
+        grid-column: auto;
+      }
+
+      .mobileviews {
+        display: flex;
+        gap: 6px;
+        margin: 14px 0;
+      }
+
+      .mobileviews button {
+        flex: 1;
+        font-size: 12px;
+      }
+
+      .yeargrid {
+        grid-template-columns: repeat(2, 1fr);
+        padding: 10px;
+        gap: 8px;
+      }
+
+      .foot {
+        flex-direction: column;
+        text-align: center;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <canvas id="confetti"></canvas>
+
+  <div class="shell">
+    <!-- Sidebar -->
+    <aside>
+      <div class="logo">
+        <span class="sun">✳</span> daylight<span style="color:#a3b18f">.</span>
+      </div>
+
+      <div>
+        <div class="label">Your workspace</div>
+        <nav class="nav">
+          <button data-view="month" class="active">▦ &nbsp; Calendar (දින දර්ශනය)</button>
+          <button data-view="year">▤ &nbsp; Year at a glance (වසරේ බැල්ම)</button>
+          <button data-view="personal">♡ &nbsp; My special days (මගේ දින)</button>
+          <button id="nav3days">🔔 &nbsp; 3-Day Alerts (දින 3 මතක් කිරීම්)</button>
+        </nav>
+      </div>
+
+      <div>
+        <div class="label">Calendar guide</div>
+        <div class="legend">
+          <div class="legend-item"><i class="dot"></i> <span>Sri Lankan holidays</span></div>
+          <div class="legend-item"><i class="dot poya"></i> <span>Poya days</span></div>
+          <div class="legend-item"><i class="dot world"></i> <span>Post-worthy occasions</span></div>
+          <div class="legend-item"><i class="dot personal"></i> <span>Your special days</span></div>
+          <div class="legend-item"><i class="dot alert3d"></i> <span>Coming in 3 days</span></div>
+        </div>
+      </div>
+
+      <div class="side-note">
+        <span style="font-size:22px">✧</span><br>
+        <strong>ලංකාවට ගැළපෙන<br>post එකක් සැලසුම් කරමු.</strong>
+        <p class="small" style="margin:4px 0 0">වැදගත් දවසක් මඟ නොහැරෙන්න.<br>Always be ready 3 days early.</p>
+      </div>
+
+      <div class="small">
+        Made for your everyday<br>
+        🇱🇰 Sri Lanka · Asia/Colombo
+      </div>
+    </aside>
+
+    <!-- Main Workspace -->
+    <main class="main">
+      <!-- Top Bar -->
+      <header class="top">
+        <div class="crumb">
+          <span>Your workspace</span>
+          <span>/</span>
+          <b style="color:var(--green)">Special Days Calendar & Countdown</b>
+        </div>
+
+        <div class="mobilebrand logo">
+          <span class="sun">✳</span> daylight.
+        </div>
+
+        <div class="top-actions">
+          <!-- Full Tab Button (For Chrome Extension Popup) -->
+          <button id="opentabbtn" class="icon-btn" title="Open Calendar in Full Tab (මුළු තිරයෙන් විවෘත කරන්න)" style="font-size:12px;padding:8px 11px;border-radius:10px;font-weight:600;">⛶ Full Tab</button>
+
+          <!-- Sound Toggle Button -->
+          <button id="soundtoggle" class="icon-btn" title="Toggle Sound Effects (හඬ සක්‍රිය/අක්‍රිය)" style="font-size:16px;padding:8px 10px;border-radius:10px;">🔊</button>
+
+          <!-- Quick 3-Day Alert Simulation Button -->
+          <button class="btn-test-alert" id="quicktest3day" title="Simulate a 3-day notification alert right now">
+            <span>⚡ Test 3-Day Alert</span>
+          </button>
+
+          <button class="notif-btn" id="notifbtn" aria-label="Notifications" title="View 3-day alerts">
+            <span class="bell-icon">🔔</span>
+            <span class="notif-btn-text">Alerts</span>
+            <span id="notifbadge" class="notif-badge">0</span>
+          </button>
+
+          <button class="primary" id="add">＋ Add a day</button>
+
+          <div class="avatar" title="Asia/Colombo Timezone">
+            <span class="initial">🇱🇰</span>
+          </div>
+        </div>
+      </header>
+
+      <!-- Heading -->
+      <section class="heading">
+        <div>
+          <h1>ලංකාවේ විශේෂ දවස්, එකම තැනක.</h1>
+          <p>Sri Lanka special days · Live days-left countdown · 3-day advance alerts</p>
+        </div>
+      </section>
+
+      <!-- 3-Day Alert Banner (Dynamic) -->
+      <div id="alertbanner" class="alert-banner" style="display:none;" role="alert">
+        <div class="alert-banner-left">
+          <div class="alert-bell-pulse">🔔</div>
+          <div>
+            <strong id="alertbannertitle">Special Day Coming Up in 3 Days!</strong>
+            <span id="alertbannerdesc">තව දින 3කින් පැමිණේ. Be ready with your celebrations or social posts!</span>
+          </div>
+        </div>
+        <div class="alert-banner-actions">
+          <button id="alertbannerview" class="btn-alert-view">View Details (විස්තර)</button>
+          <button id="alertbannerclose" class="btn-alert-close" aria-label="Dismiss">✕</button>
+        </div>
+      </div>
+
+      <!-- Creative Hero with Live Countdown Clock -->
+      <section class="hero">
+        <div class="hero-left">
+          <div class="hero-badge-row">
+            <span class="hero-badge" id="herobadge">✨ SPOTLIGHT COUNTDOWN</span>
+            <span class="hero-badge imminent" id="hero3daypill" style="display:none;">🔔 3 DAYS LEFT</span>
+          </div>
+
+          <h2 id="herotitle">A year full of possibilities.</h2>
+          <p id="herotext">Explore celebrations, mark your milestones, and see days remaining in real-time.</p>
+
+          <!-- Live Digital Countdown Unit -->
+          <div class="live-clock-row">
+            <div class="clock-box">
+              <span class="clock-val" id="clockdays">00</span>
+              <span class="clock-lbl">DAYS · දින</span>
+            </div>
+            <div class="clock-sep">:</div>
+            <div class="clock-box">
+              <span class="clock-val" id="clockhours">00</span>
+              <span class="clock-lbl">HOURS · පැය</span>
+            </div>
+            <div class="clock-sep">:</div>
+            <div class="clock-box">
+              <span class="clock-val" id="clockmins">00</span>
+              <span class="clock-lbl">MINS · මිනි</span>
+            </div>
+            <div class="clock-sep">:</div>
+            <div class="clock-box">
+              <span class="clock-val" id="clocksecs">00</span>
+              <span class="clock-lbl">SECS · තත්</span>
+            </div>
+          </div>
+
+          <div id="herocount" class="countdown-text-pill" role="status">
+            <span>⏳ Loading countdown…</span>
+          </div>
+
+          <!-- Spotlight Dropdown Selector -->
+          <div class="spotlight-picker">
+            <label for="heroselector">🎯 Count down to:</label>
+            <select id="heroselector" class="spotlight-select" aria-label="Select special day to count down"></select>
+          </div>
+        </div>
+
+        <div class="hero-visual" aria-hidden="true">
+          <div class="orb"></div>
+          <span class="spark">✧</span>
+          <div class="mini-cal">
+            <div class="mini-cal-header" id="heromonth">NOVEMBER</div>
+            <strong id="heroday">08</strong>
+          </div>
+          <button class="celebrate-btn" id="herocelebrate">✨ Celebrate</button>
+        </div>
+      </section>
+
+      <!-- Stats Bar -->
+      <section class="stats">
+        <div class="stat">
+          <div class="icon">▦</div>
+          <div>
+            <strong id="monthcount">0</strong>
+            <span>Special days this month</span>
+          </div>
+        </div>
+
+        <div class="stat">
+          <div class="icon">☼</div>
+          <div>
+            <strong id="yearcount">0</strong>
+            <span>Days to discover this year</span>
+          </div>
+        </div>
+
+        <div class="stat">
+          <div class="icon">♡</div>
+          <div>
+            <strong id="owncount">0</strong>
+            <span>Your personal moments</span>
+          </div>
+        </div>
+
+        <div class="stat stat-alert" id="stat3daybox" style="cursor:pointer;" title="Click to view 3-day alerts">
+          <div class="icon">🔔</div>
+          <div>
+            <strong id="alert3daycount">0</strong>
+            <span>Upcoming in 3 days</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- Mobile Navigation -->
+      <nav class="mobileviews">
+        <button data-view="month" class="active">Month</button>
+        <button data-view="year">Year</button>
+        <button data-view="personal">My days</button>
+        <button id="mobile3days">🔔 Alerts</button>
+      </nav>
+
+      <!-- Main Content Grid -->
+      <section class="content">
+        <!-- Calendar Column -->
+        <div class="calendar">
+          <div class="toolbar">
+            <h2 id="monthtitle">November 2026</h2>
+            <div class="controls">
+              <select aria-label="Year" id="year" class="yearselect">
+                <option>2026</option>
+                <option>2027</option>
+                <option>2028</option>
+              </select>
+              <button id="prev" aria-label="Previous month">‹</button>
+              <button id="today">Today</button>
+              <button id="next" aria-label="Next month">›</button>
+              <button id="toggle">Year view</button>
+            </div>
+          </div>
+
+          <!-- Quick Filter Pills & Search -->
+          <div class="filter-section">
+            <div class="filter-pills">
+              <button data-pill="all" class="pill-btn active">All days</button>
+              <button data-pill="3days" class="pill-btn highlight-pill">🔔 In 3 Days (දින 3කින්)</button>
+              <button data-pill="Holiday" class="pill-btn">🇱🇰 Sri Lankan holidays</button>
+              <button data-pill="Poya" class="pill-btn">🌕 Poya days</button>
+              <button data-pill="International" class="pill-btn">🌐 World days</button>
+              <button data-pill="Personal" class="pill-btn">💖 Personal</button>
+            </div>
+
+            <div class="search-row">
+              <div class="search-box">
+                <span style="color:var(--muted)">⌕</span>
+                <input id="search" placeholder="Search special days or Sinhala name…" aria-label="Search special days">
+              </div>
+              <select id="filter" class="category-select" aria-label="Filter event category" style="display:none;">
+                <option value="all">All categories</option>
+                <option value="Holiday">Sri Lankan holidays</option>
+                <option>Poya</option>
+                <option value="International">Post-worthy occasions</option>
+                <option>Personal</option>
+              </select>
+            </div>
+          </div>
+
+          <div id="board"></div>
+        </div>
+
+        <!-- Right Rail Column -->
+        <div class="rail">
+          <!-- Upcoming List -->
+          <section class="upcoming">
+            <h3 id="railtitle">
+              <span>Coming up next</span>
+              <span style="color:var(--green)">↗</span>
+            </h3>
+            <div id="upcoming"></div>
+          </section>
+
+          <!-- Quick Days Calculator (දින ගණක යන්ත්‍රය) -->
+          <div class="calc-card">
+            <h4>⏳ Days Remaining Calculator</h4>
+            <p class="small" style="margin:0">ඕනෑම දිනයකට තව දින කීයදැයි ක්ෂණිකව බලන්න:</p>
+            <div class="calc-row">
+              <input type="date" id="calcdate" class="calc-input" min="2026-01-01" max="2028-12-31">
+            </div>
+            <div class="calc-result" id="calcresult">
+              <span class="calc-result-num" id="calcnum">--</span>
+              <span class="calc-result-sub" id="calcsub">Select a date above</span>
+            </div>
+            <div class="calc-btn-row">
+              <button id="calcsethero" title="Track this date in the hero countdown">Track in Clock</button>
+              <button id="calcaddhere" class="primary" title="Save this date to your personal calendar">＋ Add to
+                Days</button>
+            </div>
+          </div>
+
+          <!-- Creative Tip -->
+          <div class="tip">
+            <strong>✧ &nbsp; Always 3 Days Ahead</strong>
+            Don't get caught by surprise. Set 3-day reminders for personal birthdays, business promotions, and Poya
+            holidays.<br><br>
+            <span>ඔබේම විශේෂ දවසක් දින 3කට පෙර මතක් කරගන්න.</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- Footer -->
+      <footer class="foot">
+        <span>
+          Sri Lanka post-planning calendar & countdown · 2026 holidays + selected local occasions.<br>
+          <a href="https://www.timeanddate.com/holidays/sri-lanka/2026" target="_blank" rel="noopener">Holiday
+            reference</a> ·
+          <a href="https://www.un.org/en/observances/list-days-weeks" target="_blank" rel="noopener">UN observances</a>
+        </span>
+        <span>
+          Your custom dates are saved in this browser.<br>
+          <button id="export" style="font-size:11px;padding:4px 9px">Export my dates</button>
+          <button id="import" style="font-size:11px;padding:4px 9px">Import</button>
+          <input type="file" id="importfile" accept="application/json" hidden>
+        </span>
+      </footer>
+    </main>
+  </div>
+
+  <!-- Add / Edit Special Day Dialog -->
+  <dialog id="edit">
+    <form id="form">
+      <h2>A day to remember.</h2>
+      <p class="small">ඔබේ විශේෂ දිනය calendar එකට එකතු කර දින 3කට පෙර reminder ලබාගන්න.</p>
+
+      <label for="name">What’s the occasion?</label>
+      <input id="name" maxlength="90" placeholder="e.g. Birthday, Brand Anniversary, Special Launch" required>
+
+      <label for="date">Date</label>
+      <input id="date" type="date" min="2026-01-01" max="2028-12-31" required>
+
+      <!-- Interactive Reminder Schedule Preview -->
+      <div id="reminderpreview" class="reminder-preview-box">
+        <span id="reminderpreviewtext">🔔 Notification schedule: Select a date to see 3-day reminder schedule</span>
+      </div>
+
+      <label for="note">A little note (optional)</label>
+      <textarea id="note" maxlength="400" placeholder="Plans, post ideas, gifts or something to remember…"></textarea>
+
+      <!-- 3-Day Notification Toggle -->
+      <label class="checkbox-box" for="remind3">
+        <input type="checkbox" id="remind3" checked>
+        <div>
+          <strong>🔔 Remind me 3 days before</strong><br>
+          <span class="small" style="color:var(--muted)">දින 3කට පෙර browser notification සහ in-app alert එකක්
+            ලබාදෙන්න.</span>
+        </div>
+      </label>
+
+      <div class="actions">
+        <button type="button" id="cancel">Cancel</button>
+        <button class="primary" type="submit">Save special day</button>
+      </div>
+    </form>
+  </dialog>
+
+  <!-- Detail Dialog -->
+  <dialog id="detail">
+    <h2 id="detailtitle">Event Details</h2>
+    <div id="detailcountdowncard" class="detail-countdown-card">
+      <div class="detail-days-num" id="detaildaysnum">--</div>
+      <div class="detail-days-sub" id="detaildayssub">Loading days remaining…</div>
+    </div>
+    <div id="detailbody"></div>
+
+    <!-- Ready-to-Copy Facebook Post Caption Box -->
+    <div id="detailcaptionbox" class="caption-box">
+      <div class="caption-header">
+        <span>📝 Facebook Post Idea & Sinhala Caption</span>
+        <button id="detailcopycaption" class="btn-copy" type="button">📋 Copy Caption</button>
+      </div>
+      <p id="detailcaptiontext" class="caption-text"></p>
+    </div>
+
+    <div class="actions">
+      <button id="close">Close</button>
+      <button id="detailtest3daybtn" style="background:#fffbeb;border-color:#fde68a;color:#92400e;font-weight:700;">🔔
+        Trigger 3-Day Alert</button>
+      <button id="detailgcal" type="button" title="Add to Google Calendar with 3-day reminder">📅 Google Calendar</button>
+      <button id="detailsetspotlight">🎯 Track Countdown</button>
+      <button class="primary" id="addhere">＋ Add to this date</button>
+    </div>
+  </dialog>
+
+  <!-- Notification Center Dialog -->
+  <dialog id="notifmodal" class="notif-modal">
+    <h2>🔔 3-Day Reminders & Alerts</h2>
+    <p class="small">දින 3කට පෙර එළඹෙන විශේෂ දින සහ දැනුම්දීම්.</p>
+
+    <!-- Browser Permission Section -->
+    <div class="notif-banner-box" id="notifpermbox">
+      <div>
+        <strong id="notifpermtitle">Desktop Notifications</strong>
+        <p class="small" id="notifpermdesc" style="margin:2px 0 0">Receive alerts even when this tab is in background.
+        </p>
+      </div>
+      <button id="notifenablebtn" class="primary" style="font-size:12px;padding:6px 10px">Enable</button>
+    </div>
+
+    <!-- Quick Test Notification Button -->
+    <div style="display:flex;justify-content:space-between;align-items:center;margin:12px 0 8px;">
+      <span class="label">Active Alerts (ඉදිරි දින 3 තුළ)</span>
+      <button id="notiftestbtn" style="font-size:11px;padding:4px 8px"
+        title="Trigger a test 3-day notification right now">⚡ Test 3-Day Alert</button>
+    </div>
+
+    <div id="notiflist" style="max-height:280px;overflow-y:auto;margin-top:6px;"></div>
+
+    <div class="actions">
+      <button id="notifclose">Close</button>
+    </div>
+  </dialog>
+
+  <!-- 3-Day Notification Interactive Popup Modal (Appears automatically 3 days before) -->
+  <div id="popup3day" class="popup-3day-container" style="display:none;" role="dialog" aria-modal="true">
+    <div class="popup-3day-card">
+      <div class="popup-3day-header">
+        <div class="popup-badge">🔔 3-DAY ADVANCE REMINDER · දින 3කට පෙර මතක් කිරීමක්</div>
+        <button class="popup-close-btn" id="popup3dayclose" aria-label="Close">✕</button>
+      </div>
+      <div class="popup-content-row">
+        <div class="popup-bell-icon">⏰</div>
+        <div class="popup-content-text">
+          <h3 id="popup3daytitle">Special Day in 3 Days!</h3>
+          <p id="popup3daydate" class="popup-date">Wednesday, 11 November 2026 (තව දින 3යි)</p>
+          <p id="popup3daydesc">මෙම විශේෂ දිනයට තව දින 3ක් පමණි! Post එකක් සැලසුම් කිරීමට, සුබපැතුම් සූදානම් කිරීමට හෝ
+            සැමරුමට දැන්ම ලෑස්ති වන්න.</p>
+        </div>
+      </div>
+      <div class="popup-footer">
+        <button class="primary" id="popup3dayviewbtn">View Special Day (විස්තර)</button>
+        <button id="popup3daydismiss">Got it (තේරුණා ✓)</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Top-Right Floating 3-Day Timeline Widget -->
+  <div id="daylight-topright-widget" style="display:none;">
+    <div class="daylight-tw-header">
+      <div class="daylight-tw-badge">
+        <span>🔔</span> 3-Day Timeline Alert
+      </div>
+      <div class="daylight-tw-header-actions">
+        <button class="daylight-tw-btn-icon" id="daylight-tw-min" title="Minimize / Expand">─</button>
+        <button class="daylight-tw-btn-icon" id="daylight-tw-close" title="Close / Dismiss">✕</button>
+      </div>
+    </div>
+
+    <div class="daylight-tw-title" id="daylight-tw-title">Special Day</div>
+    <div class="daylight-tw-date" id="daylight-tw-date">📅 Wednesday, 11 Nov · In 3 Days</div>
+
+    <!-- 3-Day Step Timeline -->
+    <div class="daylight-tw-timeline">
+      <div class="daylight-tw-timeline-title">3-Day Countdown Timeline</div>
+      <div class="daylight-tw-timeline-track">
+        <div class="daylight-tw-step" id="daylight-tw-step3">
+          <div class="daylight-tw-dot">3d</div>
+          <span class="daylight-tw-step-label">Day 3</span>
+        </div>
+        <div class="daylight-tw-step" id="daylight-tw-step2">
+          <div class="daylight-tw-dot">2d</div>
+          <span class="daylight-tw-step-label">Day 2</span>
+        </div>
+        <div class="daylight-tw-step" id="daylight-tw-step1">
+          <div class="daylight-tw-dot">1d</div>
+          <span class="daylight-tw-step-label">Eve</span>
+        </div>
+        <div class="daylight-tw-step" id="daylight-tw-step0">
+          <div class="daylight-tw-dot">★</div>
+          <span class="daylight-tw-step-label">Event</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="daylight-tw-actions">
+      <button class="daylight-tw-btn-primary" id="daylight-tw-view">View Details (විස්තර)</button>
+      <button class="daylight-tw-btn-secondary" id="daylight-tw-dismiss">Close (වසන්න)</button>
+    </div>
+  </div>
+
+  <!-- Toast Notification -->
+  <div class="toast" role="status" id="toast"></div>
+
+  <script src="app.js"></script>
+</body>
+
+</html>
